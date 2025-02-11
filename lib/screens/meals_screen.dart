@@ -1,3 +1,4 @@
+import 'package:best_food/screens/meal_details_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:best_food/models/meal.dart';
@@ -13,8 +14,14 @@ class MealsScreen extends StatelessWidget {
   final String? title;
   final List<Meal> meals;
 
-  void selectMeal(BuildContext context, Meal meal) {
-   
+ void selectMeal(BuildContext context, Meal meal) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (ctx) => MealDetailsScreen(
+          meal: meal,
+        ),
+      ),
+    );
   }
 
   @override

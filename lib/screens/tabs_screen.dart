@@ -39,7 +39,7 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
   @override
   Widget build(BuildContext context) {
     final meals = ref.watch(filteredMealsProvider);
-    final favouriteMeals = ref.watch(favouriteMealProvider);
+    final favouriteMeals = ref.watch(favouriteMealsProvider);
 
     final activeTab = switch (_selectedTabIndex) {
       0 => CategoriesScreen(meals: meals),
