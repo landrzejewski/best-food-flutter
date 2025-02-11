@@ -35,7 +35,7 @@ class Test extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final name = ref.watch(localStorageDataProvider('user'));
     return name.when(
-        data: (text) => Text(text!),
+        data: (text) => Text(text ?? ""),
         error: (error, stack) => Text('Error'),
         loading: () => Text('Loading'),
         );
