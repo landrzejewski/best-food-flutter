@@ -3,6 +3,7 @@ import 'package:best_food/providers/filters_provider.dart';
 import 'package:best_food/screens/categories_screen.dart';
 import 'package:best_food/screens/filters_screen.dart';
 import 'package:best_food/screens/meals_screen.dart';
+import 'package:best_food/screens/places_screen.dart';
 import 'package:best_food/widgets/main_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -44,12 +45,14 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
     final activeTab = switch (_selectedTabIndex) {
       0 => CategoriesScreen(meals: meals),
       1 => MealsScreen(meals: favouriteMeals),
+      2 => PlacesScreen(),
       _ => throw UnimplementedError()
     };
 
     final activeTabTitle = switch (_selectedTabIndex) {
       0 => 'Categories',
       1 => 'Favourites',
+      2 => 'Places',
       _ => throw UnimplementedError()
     };
 
@@ -70,6 +73,10 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.star),
             label: 'Favourites',
+          ),
+            BottomNavigationBarItem(
+            icon: Icon(Icons.gps_fixed),
+            label: 'Places',
           )
         ],
       ),
