@@ -44,7 +44,7 @@ class PlacesNotifier extends StateNotifier<List<Place>> {
     final db = await _getDatabase();
     final data = await db.query('places');
     final places = data.map(toPlace).toList();
-    await Future.delayed(Duration(seconds: 2));
+    //await Future.delayed(Duration(seconds: 1));
     state = places;
   }
 

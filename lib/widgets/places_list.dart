@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:best_food/models/place.dart';
+import 'package:flutter/rendering.dart';
 
 class PlacesList extends StatelessWidget {
   const PlacesList({super.key, required this.places});
@@ -19,8 +20,9 @@ class PlacesList extends StatelessWidget {
         ),
       );
     }
-
     return ListView.builder(
+      shrinkWrap: true,
+      scrollDirection: Axis.vertical,
       itemCount: places.length,
       itemBuilder: (ctx, index) => ListTile(
         leading: CircleAvatar(
@@ -38,11 +40,7 @@ class PlacesList extends StatelessWidget {
           style: Theme.of(context).textTheme.bodySmall!.copyWith(
                 color: Theme.of(context).colorScheme.onSurface,
               ),
-        ),
-        onTap: () {
-         
-        
-        },
+        )
       ),
     );
   }

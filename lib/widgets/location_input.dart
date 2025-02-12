@@ -1,6 +1,13 @@
+import 'dart:convert';
+
 import 'package:best_food/models/location.dart';
+import 'package:best_food/screens/map_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:http/http.dart' as http;
+
+const apiKey = 'AIzaSyCmABbU2QbTkOFlK0En4xwGqg-uWif8QQg';
 
 class LocationInput extends StatefulWidget {
   const LocationInput({super.key, required this.onSelectLocation});
@@ -13,6 +20,16 @@ class LocationInput extends StatefulWidget {
 
 class _LocationInputState extends State<LocationInput> {
   var _isLoading = false;
+  PlaceLocation? _pickedLocation;
+
+  String get locationImage {
+    if (_pickedLocation == null) {
+      return '';
+    }
+    final lat = _pickedLocation!.latitude;
+    final lng = _pickedLocation!.longitude;
+    return 'https://maps.googleapis.com/maps/api/staticmap?center=$lat,$lng&zoom=14&size=600x300&maptype=roadmap&markers=color:red%7Clabel:A%7C$lat,$lng&key=$apiKey';
+  }
 
   void _getLocation() async {
     final location = Location();
@@ -43,8 +60,25 @@ class _LocationInputState extends State<LocationInput> {
     _save(locationData.latitude!, locationData.longitude!);
   }
 
+  void _selectOnMap() async {
+    final pickedLocation = await Navigator.of(context)
+    .push<LatLng>(MaterialPageRoute(builder: (ctx) => const MapScreen()),);
+    if (pickedLocation == null) {
+      return;
+    }
+    _save(pickedLocation.latitude, pickedLocation.longitude);
+  }
+
   Future<void> _save(double latitude, double longitude) async {
-     setState(() => _isLoading = false);
+    final url = Uri.parse(
+        'https://maps.googleapis.com/maps/api/geocode/json?latlng=$latitude,$longitude&key=$apiKey');
+    final response = await http.get(url);
+    final data = json.decode(response.body);
+    final address = data['results'][0]['formatted_address'];
+    _pickedLocation = PlaceLocation(
+        latitude: latitude, longitude: longitude, address: address);
+    setState(() => _isLoading = false);
+    widget.onSelectLocation(_pickedLocation!);
   }
 
   @override
@@ -54,6 +88,15 @@ class _LocationInputState extends State<LocationInput> {
       style: TextStyle(color: const Color.fromARGB(255, 195, 181, 235)),
       textAlign: TextAlign.center,
     );
+
+    if (_pickedLocation != null) {
+      preview = Image.network(
+        locationImage,
+        fit: BoxFit.cover,
+        width: double.infinity,
+        height: double.infinity,
+      );
+    }
 
     if (_isLoading) {
       preview = const CircularProgressIndicator();
@@ -81,7 +124,7 @@ class _LocationInputState extends State<LocationInput> {
             TextButton.icon(
               icon: const Icon(Icons.map),
               label: const Text('Select on map'),
-              onPressed: () {},
+              onPressed: _selectOnMap,
             ),
           ],
         )
