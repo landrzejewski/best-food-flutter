@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:best_food/models/location.dart';
 import 'package:best_food/models/place.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sqflite/sqflite.dart' as sql;
 import 'package:path/path.dart' as path;
@@ -45,7 +44,7 @@ class PlacesNotifier extends StateNotifier<List<Place>> {
     final db = await _getDatabase();
     final data = await db.query('places');
     final places = data.map(toPlace).toList();
-    await Future.delayed(Duration(milliseconds: 5000));
+    await Future.delayed(Duration(seconds: 2));
     state = places;
   }
 

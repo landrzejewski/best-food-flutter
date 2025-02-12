@@ -1,4 +1,5 @@
 import 'package:best_food/providers/places_provider.dart';
+import 'package:best_food/widgets/places_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,7 +24,7 @@ class _PlacesScreenState extends ConsumerState<PlacesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final _places = ref.watch(placesProvider);
+    final places = ref.watch(placesProvider);
     return Padding(
       padding: const EdgeInsets.all(16),
       child: FutureBuilder(
@@ -31,7 +32,9 @@ class _PlacesScreenState extends ConsumerState<PlacesScreen> {
         builder: (context, snapshot) =>
             snapshot.connectionState == ConnectionState.waiting
                 ? const Center(child: CircularProgressIndicator())
-                : PlacesList(_places),
+                : PlacesList(
+                    places: places,
+                  ),
       ),
     );
   }
