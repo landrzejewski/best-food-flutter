@@ -32,7 +32,7 @@ class PlacesNotifier extends StateNotifier<List<Place>> {
       id: row['id'] as String,
       name: row['name'] as String,
       image: File(row['image_path'] as String),
-      location: Location(
+      location: PlaceLocation(
         latitude: row['lat'] as double,
         longitude: row['lng'] as double,
         address: row['address'] as String,

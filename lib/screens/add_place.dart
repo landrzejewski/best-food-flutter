@@ -1,4 +1,5 @@
 import 'package:best_food/widgets/image_input.dart';
+import 'package:best_food/widgets/location_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -38,7 +39,9 @@ class _AddPlaceScreenState extends ConsumerState<AddPlaceScreen> {
                 ),
               ),
               const SizedBox(height: 10),
-              ImageInput(onPickImage: (image) {})
+              ImageInput(onPickImage: (image) {}),
+              const SizedBox(height: 10),
+              LocationInput(onSelectLocation: (location) {})
             ],
           ),
         ));

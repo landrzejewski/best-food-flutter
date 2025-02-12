@@ -16,5 +16,5 @@ class Place {
   final String id;
   final String name;
   final File image;
-  final Location location;
+  final PlaceLocation location;
 }
